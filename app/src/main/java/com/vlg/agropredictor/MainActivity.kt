@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var imageView: ImageView
     private lateinit var imagePlaceholder: ImageView
-//    private lateinit var overlayLayout: LinearLayout
+
+    //    private lateinit var overlayLayout: LinearLayout
     private lateinit var btnSelectImage: Button
     private lateinit var btnAnalyze: Button
 
@@ -120,11 +121,9 @@ class MainActivity : AppCompatActivity() {
             metadata.humidity,
             metadata.age
         ) { result ->
-            runOnUiThread {
-                progressBar.visibility = View.GONE
-                btnAnalyze.isEnabled = true
-                displayResults(result)
-            }
+            progressBar.visibility = View.GONE
+            btnAnalyze.isEnabled = true
+            displayResults(result)
         }
     }
 
@@ -140,14 +139,17 @@ class MainActivity : AppCompatActivity() {
                     showToast("Температура должна быть между 0 и 50°C")
                     null
                 }
+
                 humidity < 0 || humidity > 100 -> {
                     showToast("Влажность должна быть между 0 и 100%")
                     null
                 }
+
                 age < 0 || age > 100 -> {
                     showToast("Возраст плода должен быть между 0 и 100 дней")
                     null
                 }
+
                 else -> Metadata(temperature, humidity, age)
             }
         } catch (e: NumberFormatException) {
@@ -168,13 +170,12 @@ class MainActivity : AppCompatActivity() {
                 val percentage = (confidence * 100).toInt()
                 append("$className: $percentage%\n")
             }
+            append(showDiseaseRecommendations(result.className))
         }
 
         detailedResultText.text = detailedText
         detailedResultLayout.visibility = View.VISIBLE
 
-        // Дополнительная информация в зависимости от результата
-        showDiseaseRecommendations(result.className)
     }
 
 //    private fun getEmojiForClass(classIndex: Int): String {
