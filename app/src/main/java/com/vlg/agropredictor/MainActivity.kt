@@ -170,7 +170,7 @@ class MainActivity : AppCompatActivity() {
                 val percentage = (confidence * 100).toInt()
                 append("$className: $percentage%\n")
             }
-            append(showDiseaseRecommendations(result.className))
+            append("\n").append(showDiseaseRecommendations(result.className))
         }
 
         detailedResultText.text = detailedText
@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    private fun showDiseaseRecommendations(className: String) {
+    private fun showDiseaseRecommendations(className: String): String {
         val recommendations = when (className) {
             "Anthracnose" -> "Рекомендация: Обработать фунгицидами, уменьшить влажность"
             "Bacterial Wilt" -> "Рекомендация: Удалить пораженные растения, улучшить дренаж"
@@ -203,7 +203,7 @@ class MainActivity : AppCompatActivity() {
             else -> "Растение здоровое! Продолжайте ухаживать как обычно."
         }
 
-        showToast(recommendations)
+        return recommendations
     }
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
